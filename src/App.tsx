@@ -21,11 +21,11 @@ const App: React.FC = observer(() => {
       <NavBar/>
       <Routes>
           <Route path="/login" element={<LoginPage />} />
-          <Route path="/registration" element={<RegistrationPage />} />
-          {/* <Route path='/' element={<ProtectedRoute/>}>
+          <Route path="/register" element={<RegistrationPage />} />
+          <Route path='/' element={<ProtectedRoute/>}>
               <Route path='/' element={<MainPage />} />
-          </Route> */}
-          <Route path='/' element={<MainPage />} />
+          </Route>
+          {/* <Route path='/' element={<MainPage />} /> */}
       </Routes>
     </>
 

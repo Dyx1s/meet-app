@@ -16,8 +16,6 @@ class UserService {
         }));
     }
 
-    
-
     async login(email: string, password: string) {
         // Симуляция логина
         return { success: true, user: { email } };

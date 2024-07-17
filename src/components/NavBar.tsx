@@ -4,18 +4,18 @@ import userStore from '../stores/UserStore';
 
 const NavBar: React.FC = () => {
     return (
-        <nav className="bg-blue-500 p-4">
+        <nav className="bg-gray-500 p-4">
             <div className="container mx-auto flex justify-between items-center">
                 <Link to="/" className="text-white font-bold text-xl">Тиндер на минималках</Link>
                 <div>
                     {userStore.isAuthenticated ? (
                         <button onClick={() => userStore.logout()} className="bg-red-500 text-white py-2 px-4 rounded">
-                            Logout
+                            Выйти
                         </button>
                     ) : (
                         <>
-                            <Link to="/login" className="bg-green-500 text-white py-2 px-4 rounded mr-2">Log in</Link>
-                            <Link to="/register" className="bg-blue-700 text-white py-2 px-4 rounded">Register</Link>
+                            <Link to="/login" className="bg-black-500 text-white py-2 px-4 rounded mr-2">Войти</Link>
+                            <Link to="/register" className="bg-black-700 text-white py-2 px-4 rounded">Регистрация</Link>
                         </>
                     )}
                 </div>
