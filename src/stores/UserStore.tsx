@@ -1,11 +1,10 @@
-import {makeAutoObservable} from 'mobx'
+import { makeAutoObservable } from 'mobx'
+import UserService from '../services/UserService';
 
 class UserStore {
-    users = [
-        { id: 1, name: 'User 1', bio: 'Bio 1', image: 'https://via.placeholder.com/400' },
-        { id: 2, name: 'User 2', bio: 'Bio 2', image: 'https://via.placeholder.com/400' },
-    ];
+    users = [];
     currentIndex = 0;
+    isAuthenticated = false;
 
     constructor() {
         makeAutoObservable(this);
@@ -15,12 +14,35 @@ class UserStore {
         return this.users[this.currentIndex];
     }
 
+    async fetchUsers() {
+        this.users = await UserService.getUsers();
+    }
+
     likeUser() {
         this.currentIndex = (this.currentIndex + 1) % this.users.length;
     }
 
     dislikeUser() {
         this.currentIndex = (this.currentIndex + 1) % this.users.length;
+    }
+
+
+    async login(email: string, password: string) {
+        const data = await UserService.login(email, password);
+        if (data.success) {
+            this.isAuthenticated = true;
+        }
+    }
+
+    async register(username: string, email: string, password: string) {
+        const data = await UserService.register(username, email, password);
+        if (data.success) {
+            this.isAuthenticated = true;
+        }
+    }
+
+    logout() {
+        this.isAuthenticated = false;
     }
 }
 
