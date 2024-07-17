@@ -3,7 +3,7 @@ import React from 'react'
 const LoginPage: React.FC = () => {
   return (
     <div>
-        пошел нахуй этот логин
+        пошел нахуй, ты не зареган
     </div>
   )
 }

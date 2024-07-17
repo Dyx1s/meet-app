@@ -1,13 +1,18 @@
-import { Container } from '@mui/material'
-import React from 'react'
-import UserCard from '../components/UserCard'
+import React, { useEffect } from 'react';
+import UserCard from '../components/UserCard';
+import userStore from '../stores/UserStore';
+import { observer } from 'mobx-react-lite';
 
-const MainPage: React.FC = () => {
-  return (
-    <Container>
-        <UserCard />
-    </Container>
-  )
-}
+const MainPage: React.FC = observer(() => {
+    useEffect(() => {
+        userStore.fetchUsers();
+    }, []);
 
-export default MainPage
+    return (
+        <div className="container mx-auto mt-4">
+            <UserCard />
+        </div>
+    );
+});
+
+export default MainPage;

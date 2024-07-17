@@ -1,33 +1,41 @@
-import axios from "axios";
+import axios from 'axios';
+
+export interface User {
+    name: string;
+    bio: string;
+    image: string;
+}
 
 class UserService {
-    async getUsers(count: number = 10) {
+    async getUsers(count: number = 10): Promise<User[]> {
         const response = await axios.get(`https://randomuser.me/api/?results=${count}`)
         return response.data.results.map((user: any) => ({
             name: `${user.name.first} ${user.name.last}`,
             bio: user.email,
-            image: user.picture.large
+            image: user.picture.medium
         }));
     }
 
+    
+
     async login(email: string, password: string) {
-        /* ща придумаем */
-        return { success: true };
+        // Симуляция логина
+        return { success: true, user: { email } };
     }
 
     async register(username: string, email: string, password: string) {
-        /* ща придумаем */
-        return { success: true };
+        // Симуляция регистрации
+        return { success: true, user: { username, email } };
     }
 
     async getUserProfile() {
-        /* ща придумаем */
+        // Симуляция получения профиля пользователя
         return {
             name: 'Demo name',
             bio: 'Demo bio',
             image: 'https://via.placeholder.com/150'
-        }
+        };
     }
 }
 
-export default new UserService()
+export default new UserService();

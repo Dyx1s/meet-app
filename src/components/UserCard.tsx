@@ -1,41 +1,27 @@
-import { observer } from 'mobx-react-lite'
-import React from 'react'
-import userStore from '../stores/UserStore'
-
-import { Card, CardContent, CardMedia, IconButton, Typography } from '@mui/material'
-import { ThumbDown, ThumbUp } from '@mui/icons-material'
+import React from 'react';
+import { observer } from 'mobx-react-lite';
+import userStore from '../stores/UserStore';
 
 const UserCard: React.FC = observer(() => {
-    const user = userStore.currentUser
+    if (!userStore.users.length) {
+        return <div>Loading...</div>;
+    }
+
+    const user = userStore.users[0]; // Предполагаем, что отображаем первого пользователя
+
     return (
-        <Card>
-            <CardMedia
-                component="img"
-                image={user.image}
-                height='400'
-            />
-
-            <CardContent>
-                <Typography gutterBottom variant="h5" component="div">
-                    {user.name}
-                </Typography>
-                <Typography variant="body2" color="textSecondary" component="p">
-                    {user.bio}
-                </Typography>
-            </CardContent>
-
-            <div style={{display: 'flex', justifyContent: 'space-between', padding: '0 16px 16px 16px' }}>
-                <IconButton color="primary" onClick={() => userStore.likeUser()}>
-                    <ThumbUp />
-                </IconButton>
-
-                <IconButton color='secondary' onClick={() => userStore.dislikeUser()}>
-                    <ThumbDown/>
-                </IconButton>
-
+        <div className="max-w-sm rounded overflow-hidden shadow-lg">
+            <img className="w-full" src={user.image} alt={user.name} />
+            <div className="px-6 py-4">
+                <div className="font-bold text-xl mb-2">{user.name}</div>
+                <p className="text-gray-700 text-base">{user.bio}</p>
             </div>
-        </Card>
-    )
-})
+            <div className="px-6 pt-4 pb-2">
+                <button className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded mr-2" onClick={() => userStore.likeUser()}>Like</button>
+                <button className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded" onClick={() => userStore.dislikeUser()}>Dislike</button>
+            </div>
+        </div>
+    );
+});
 
-export default UserCard
+export default UserCard;

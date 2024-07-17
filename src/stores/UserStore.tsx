@@ -1,48 +1,52 @@
-import { makeAutoObservable } from 'mobx'
-import UserService from '../services/UserService';
+import { makeAutoObservable } from 'mobx';
+import userService, { User } from '../services/UserService';
 
 class UserStore {
-    users = [];
-    currentIndex = 0;
     isAuthenticated = false;
+    currentUser: any = null;
+    users: User[] = [];
 
     constructor() {
         makeAutoObservable(this);
     }
 
-    get currentUser() {
-        return this.users[this.currentIndex];
-    }
-
-    async fetchUsers() {
-        this.users = await UserService.getUsers();
-    }
-
-    likeUser() {
-        this.currentIndex = (this.currentIndex + 1) % this.users.length;
-    }
-
-    dislikeUser() {
-        this.currentIndex = (this.currentIndex + 1) % this.users.length;
-    }
-
-
     async login(email: string, password: string) {
-        const data = await UserService.login(email, password);
-        if (data.success) {
+        const response = await userService.login(email, password);
+        if (response.success) {
+            this.currentUser = response.user;
             this.isAuthenticated = true;
         }
     }
 
     async register(username: string, email: string, password: string) {
-        const data = await UserService.register(username, email, password);
-        if (data.success) {
+        const response = await userService.register(username, email, password);
+        if (response.success) {
+            this.currentUser = response.user;
             this.isAuthenticated = true;
         }
     }
 
+    async fetchUsers(count: number = 10) {
+        const users = await userService.getUsers(count);
+        this.users = users;
+    }
+
+    async getUserProfile() {
+        const profile = await userService.getUserProfile();
+        this.currentUser = profile;
+    }
+
     logout() {
         this.isAuthenticated = false;
+        this.currentUser = null;
+    }
+
+    likeUser() {
+        // Логика лайка пользователя
+    }
+
+    dislikeUser() {
+        // Логика дизлайка пользователя
     }
 }
 
